@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <canvas id="canvas"></canvas>
+    <script>
+        let canvas = document.getElementById('canvas');
+        let ctx = canvas.getContext('2d');
+
+        var img = new Image();
+        img.src = 'long.jpeg';
+        img.setAttribute('cross-origin', 'anonymous')
+        img.onload = function() {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+
+            var imageData = ctx.getImageData(0, 0, img.width, img.height).data;
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(0,0,img.width,img.height);
+
+            var gap = 6;
+
+            for (var h = 0; h < img.height; h+=gap) {
+                for(var w = 0; w < img.width; w+=gap){
+                        var position = (img.width * h + w) * 4;
+                        var r = imageData[position], g = imageData[position + 1], b = imageData[position + 2];
+
+                        if(r+g+b==0){
+                                ctx.fillStyle = "#000";
+                                ctx.fillRect(w,h,4,4);
+                            }
+                }
+            }
+        }
+
+        
+
+        
+
+    </script>
+
+</body>
+</html>
